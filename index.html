@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Fees Management System</title>
+    <link rel="stylesheet" href="styles.css">
+  <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>-->
+</head>
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="./style.css">
+
+<body>
+    <div class="sidebar">
+        <div class="profile">
+            <img src="1ww.png" alt="Profile">
+            <h3>Admin</h3>
+        </div>
+        <nav>
+            <a href="#">Dashboard</a>
+            <a href="#">Payments</a>
+            <a href="#">Reports</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Dashboard</h1>
+            <input type="text" placeholder="Search by Name or Payment ID..." id="searchBar">
+        </header>
+        <section class="stats">
+            <div class="stat-item">
+                <h3>Total Fees</h3>
+                <p id="totalFees">₦0.00</p>
+            </div>
+            <div class="stat-item">
+                <h3>Total Students Paid</h3>
+                <p id="studentsPaid">0</p>
+            </div>
+            <div class="stat-item">
+                <h3>Total Pending</h3>
+                <p id="totalPending">0</p>
+            </div>
+        </section>
+       <br>
+      <select id="classFilter">
+      <option value="">All Classes</option>
+      <option value="Primary 1">Primary 1</option>
+      <option value="Primary 2">Primary 2</option>
+      <!-- Add more class options as needed -->
+      </select>
+      
+      <select id="typeFilter">
+      <option value="">All Types</option>
+      <option value="Full">Full Payment</option>
+      <option value="Partial">Not Full Payment</option>
+      </select>
+      
+      <input type="date" id="dateFilter">
+     
+     
+        <section class="actions">
+            <button id="addPaymentBtn">Add Student Payment</button>
+        </section>
+        <section class="students-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Class</th>
+                        <th>Payment Type</th>
+                        <th>Amount</th>
+                        <th>Payment Date</th>
+                        <th>Payment ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTableBody">
+                    <!-- Dynamic Content here -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Payment Dialog -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <h2>Add Payment</h2>
+            <form id="paymentForm">
+                <label for="studentName">Student Name:</label>
+                <input type="text" id="studentName" required>
+
+                <label for="studentClass">Class:</label>
+                <select id="studentClass" required>
+                    <option value="Primary 1">Primary 1</option>
+                    <option value="Primary 2">Primary 2</option>
+                    <option value="Primary 3">Primary 3</option>
+                    <option value="Primary 4">Primary 4</option>
+                    <option value="Primary 5">Primary 5</option>
+                </select>
+
+                <label for="paymentType">Payment Type:</label>
+                <select id="paymentType" required>
+                    <option value="Full">Full Payment</option>
+                    <option value="Partial">Not Full Payment</option>
+                </select>
+
+                <label for="paymentAmount">Amount:</label>
+                <input type="number" id="paymentAmount" disabled>
+
+                <label for="paymentDate">Date:</label>
+                <input type="date" id="paymentDate" required>
+
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+<body>
+
+<div class="report-section">
+    <header>
+        <h1>Generate Reports</h1>
+    </header>
+    <section class="filters">
+        <select id="reportClassFilter">
+            <option value="">All Classes</option>
+            <option value="Primary 1">Primary 1</option>
+            <option value="Primary 2">Primary 2</option>
+            <option value="Primary 3">Primary 3</option>
+            <option value="Primary 4">Primary 4</option>
+            <option value="Primary 5">Primary 5</option>
+        </select>
+
+        <select id="reportTypeFilter">
+            <option value="">All Payment Types</option>
+            <option value="Full">Full Payment</option>
+            <option value="Partial">Not Full Payment</option>
+        </select>
+
+        <input type="date" id="reportDateFilter">
+
+        <button id="generateReportBtn">Generate Report</button>
+    </section>
+
+    <section class="report-table">
+        <table id="reportTable">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Class</th>
+                    <th>Payment Type</th>
+                    <th>Amount</th>
+                    <th>Payment Date</th>
+                    <th>Payment ID</th>
+                </tr>
+            </thead>
+            <tbody id="reportTableBody">
+                <!-- Generated Report Content Here -->
+            </tbody>
+        </table>
+
+        <div id="reportTotals">
+            <p>Total Students: <span id="totalReportStudents">0</span></p>
+            <p>Grand Total Amount: ₦<span id="grandTotalReport">0</span></p>
+        </div>
+    </section>
+
+    <section class="report-actions">
+        <button onclick="generatePDF()" id="printReportBtn">Print Report</button>
+    </section>
+    <button id="printReportBt" style="display:none;" type="submit"></button>
+</div>
+
+<!-- Print Area -->
+<div id="printArea" style="display: none;">
+    <table id="printTable">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Class</th>
+                <th>Payment Type</th>
+                <th>Amount</th>
+                <th>Payment Date</th>
+                <th>Payment ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Populated by JavaScript -->
+        </tbody>
+    </table>
+    <p>Total Students: <span id="totalPrintStudents"></span></p>
+    <p>Grand Total: <span id="grandTotalPrint"></span></p>
+</div>
+</body>
+<script src="./jspdf.js"></script>
+<script src="./autotable.js"></script>
+<script src="./main.js"></script>
+<script src="pdfgen.js"></script>
+<script src="./app.js"></script>
+</html>
